@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Page</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div>
+        <div><img class="logo" src="SchemX-main logo 4.png" alt="Excellent"></div>
+        <div class="head"> <span class="heading">Share your Feedback</span></div>
+        <div class="app" title="Feedback Form">
+            <form id="feedbackForm" action="feedback.php" method="post" title="Feedback Form">
+                <span class="para1">How would you rate your experience?</span>
+                <div class="container">
+                    <div class="item">
+                        <label for="0">
+                            <input class="radio" type="radio" name="feedback" id="0" value="Excellent" required>
+                            <span>
+                                <img src="excellent.png" alt="Excellent">
+                                <br>
+                                <span class="emoji-label">Excellent</span>
+                            </span>
+                        </label>
+                    </div>
+
+                    <div class="item">
+                        <label for="1">
+                            <input class="radio" type="radio" name="feedback" id="1" value="Good" required>
+                            <span>
+                                <img src="good.png" alt="Good">
+                                <br>
+                                <span class="emoji-label">Good</span>
+                            </span>
+                        </label>
+                    </div>
+
+                    <div class="item">
+                        <label for="2">
+                            <input class="radio" type="radio" name="feedback" id="2" value="Average" required>
+                            <span>
+                                <img src="average.png" alt="Average">
+                                <br>
+                                <span class="emoji-label">Average</span>
+                            </span>
+                        </label>
+                    </div>
+
+                    <div class="item">
+                        <label for="3">
+                            <input class="radio" type="radio" name="feedback" id="3" value="Improve" required>
+                            <span>
+                                <img src="needtoimprove.png" alt="Improve">
+                                <br>
+                                <span class="emoji-label">Improve</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <span class="para">Tell us about your experience</span>
+
+                <textarea id="comments" name="comments" placeholder="Leave your comments here..."></textarea>
+                <button type="submit">Submit</button>
+            </form>
+
+
+            <div id="alertPlaceholder"></div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#feedbackForm').on('submit', function (event) {
+                event.preventDefault();
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: $(this).serialize(),
+                    success: function (response) {
+
+                        $('#alertPlaceholder').html(
+                            `<div id="successAlert" style="background-color: white; color: green; padding: 15px; margin-top: 15px;">
+                                Thank you! Your feedback has been submitted successfully.
+                            </div>`
+                        );
+
+                        $('#feedbackForm')[0].reset();
+
+
+                        setTimeout(function () {
+                            $('#successAlert').fadeOut('slow', function () {
+                                $(this).remove();
+                            });
+                        }, 3000);
+                    },
+                    error: function () {
+
+                        $('#alertPlaceholder').html(
+                            `<div id="errorAlert" style="background-color: white; color: red; padding: 15px; margin-top: 15px;">
+                                Oops! Something went wrong. Please try again later.
+                            </div>`
+                        );
+
+                        setTimeout(function () {
+                            $('#errorAlert').fadeOut('slow', function () {
+                                $(this).remove();
+                            });
+                        }, 3000);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
